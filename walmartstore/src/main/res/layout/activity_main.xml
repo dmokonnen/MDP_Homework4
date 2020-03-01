@@ -108,11 +108,13 @@
         android:layout_height="30dp"/>
 
     <Button
+        android:id="@+id/createAccount"
         android:layout_width="140pt"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/white"
         android:padding="12dp"
+        android:onClick="createAccount"
         android:text="Create a new account"
         android:textColor="@color/blue" />
 </LinearLayout>

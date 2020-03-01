@@ -3,6 +3,8 @@ package edu.miu.homework4
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,6 +19,10 @@ class MainActivity : AppCompatActivity() {
         userList.add(User("Denny","Gullick","dgullick@email.com","1234"))
         userList.add(User("Martin","Fowler","mfowler@email.com","1234"))
         userList.add(User("Robert","Martin","rmartin@email.com","1234"))
+        val newUser = intent.getSerializableExtra("newUser") as? User
+        if (newUser != null) {
+            userList.add(newUser)
+        }
     }
 
     fun signingIn(view: View) {
@@ -31,7 +37,11 @@ class MainActivity : AppCompatActivity() {
         if(found) {
             intent.putExtra("message",input )
             startActivity(intent)
-            println("successfully signed in")
         }
+    }
+
+    fun createAccount(view: View) {
+        val intent=Intent(this,CreateAccountActivity::class.java)
+        startActivity(intent)
     }
 }
