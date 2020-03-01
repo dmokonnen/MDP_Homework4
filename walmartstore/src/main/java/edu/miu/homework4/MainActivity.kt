@@ -1,10 +1,9 @@
 package edu.miu.homework4
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -43,5 +42,35 @@ class MainActivity : AppCompatActivity() {
     fun createAccount(view: View) {
         val intent=Intent(this,CreateAccountActivity::class.java)
         startActivity(intent)
+    }
+    private fun composeEmail(addresses: Array<String>, subject: String,message:String) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:") // only email apps should handle this
+            putExtra(Intent.EXTRA_EMAIL, addresses)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, message)
+            //setType("message/rfc822")
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+    fun composeEmail(view: View) {
+        val address=Array(1){userName.text.toString()}
+        var found=false
+        lateinit var pw: String
+        for(user in userList){
+            if(user.username == userName.text.toString()) {
+                pw=user.password
+                found=true
+                break
+            }
+
+        }
+        var message:String
+        message = if (!found) {
+            "You don't have account with this email."
+        } else "your password is $pw without single quotes."
+        composeEmail(address,"Your forgotten password",message)
     }
 }
